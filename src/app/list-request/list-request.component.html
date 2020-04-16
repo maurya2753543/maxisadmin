@@ -1,0 +1,96 @@
+<app-left-menu></app-left-menu>
+<div class="page-wrapper">
+  <div class="page-header">
+    <h2 class="page-title">Requests</h2>
+    <div class="filter-form">
+      <div class="filterBy" (click)="showFilter()" [class.active]="isFilterOpen == true">Filter By</div>
+      <div class="filter-form-wrapper" *ngIf="isFilterOpen">
+        <div class="row">
+          <div class="col-sm-4 form-group">
+            <label class="form-label">MSISDN</label>
+            <input [(ngModel)]="searchParams.msisdn" name="msisdn" type="text" class="form-control" placeholder="MSISDN" />
+          </div>
+          <div class="col-sm-4 form-group">
+            <label class="form-label">Request Date</label>
+            <my-date-picker name="startDate" placeholder="Start Date" (dateChanged)="onStartDateChanged($event)" [options]="myDatePickerOptions"
+              [(ngModel)]="startDate" readonly></my-date-picker>
+          </div>
+          <div class="col-sm-4 form-group">
+            <label class="form-label">&nbsp;</label>
+            <my-date-picker name="endDate" placeholder="End Date" (dateChanged)="onEndDateChanged($event)" [options]="myDatePickerOptions2" [(ngModel)]="endDate" readonly></my-date-picker>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 form-group">
+            <label class="form-label">IMEI/UDID</label>
+            <input type="text" [(ngModel)]="searchParams.deviceId" name="deviceId" class="form-control" placeholder="IMEI/UDID" />
+          </div>
+          <div class="col-sm-4 form-group">
+            <label class="form-label">IC No/Passport No.</label>
+            <input type="text" [(ngModel)]="searchParams.customerId" name="customerId" class="form-control" placeholder="IC No/Passport No." />
+          </div>
+        </div>
+        <div class="btn-wrapper form-group">
+          <button type="submit" (click)="doSearch()" class="btn btn-primary">Search</button>
+          <button type="reset" (click)="clearForm()" class="btn btn-primary">Clear</button>
+        </div>
+      </div>
+    </div>
+    <!-- </form> -->
+  </div>
+  <div class="total-counts">
+    <ul>
+      <!-- <li><span class="bullet policy-inititated"></span> Initiated ({{initiatedCount?initiatedCount:'-'}})</li> -->
+      <li (click)="filterByPolicyStatus('PENDING')"><span class="bullet policy-lapsed"></span> Pending ({{pendingCount?pendingCount:'-'}})</li>
+      <li (click)="filterByPolicyStatus('APPROVED')"><span class="bullet policy-active"></span> Approved ({{approvedCount?approvedCount:'-'}})</li>
+      <li (click)="filterByPolicyStatus('REJECTED')"><span class="bullet policy-expired"></span> Rejected ({{rejectedCount?rejectedCount:'-'}})</li>
+      <li (click)="filterByPolicyStatus('CANCELED')"><span class="bullet policy-cancel"></span> Canceled ({{cancelCount?cancelCount:'-'}})</li>
+    </ul>
+  </div>
+  <table style="margin-bottom: 10px;" *ngIf="!noData" class="data-table">
+    <thead>
+      <tr>
+        <th>IMEI/UDID</th>
+        <th>MSISDN</th>
+        <th>IC/Passport No.</th>
+        <th>Uploaded Image</th>
+        <!-- <th>Processed Image</th> -->
+        <th>Request Date</th>
+        <th>Action By</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of requestArr | paginate: { itemsPerPage: 10, currentPage: p }">
+        <td>{{item.deviceId}}</td>
+        <td>{{item.msisdn}}</td>
+        <td>{{item.customerId}}</td>
+        <td style="text-align: center;">
+            <i *ngIf="item.deviceImage" style="font-size: 30px;" class="far fa-image" (click)="showImagePopUP(item.deviceImage)"></i>
+            <i *ngIf="!item?.deviceImage" style="font-size: 30px; color: lightgray" class="far fa-image"></i>
+
+          <!-- <img src="../../admin/assets/photoGallery.jpg" alt="No Image" (click)="showImagePopUP(item.deviceImage)"> -->
+        </td>
+        <!-- <td>
+          <img src="../../assets/photo_gallery.jpg" alt="No Image" (click)="showImagePopUP(item.deviceProcessedImage)">
+        </td> -->
+        <td>{{item.requestDate | formatdate}}</td>
+        <td>{{item.assignedToUserName}}</td>
+        <td class="text-center">
+          <div class="btn-status text-center btn-block" [ngClass]="'btn-'+(item.requestStatus | lowercase)">{{item.requestStatus}}</div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <pagination-controls *ngIf="!noData" style="text-align: center;" (pageChange)="p = $event"></pagination-controls>
+  <div *ngIf="noData" class="noDataFound">{{noDataMesssage}}</div>
+
+  <modal #imagePopup>
+    <modal-body style="text-align: center;">
+      <img *ngIf="popupImageUrl else noImage" [src]="popupImageUrl" />
+      <ng-template #noImage>
+        No image to be displayed
+      </ng-template>
+    </modal-body>
+  </modal>
+</div>

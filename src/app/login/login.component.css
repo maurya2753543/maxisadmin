@@ -1,0 +1,14 @@
+::ng-deep body{
+  background-color: #eee;
+}
+.login-wrapper {
+  border-radius: 10px;
+  background-color: #fff;
+  padding: 40px;
+  width: 96%;
+  max-width: 450px;
+  margin: 10% auto;
+  position: relative;
+  -webkit-box-shadow: 0 0 6px rgba(0,0,0,0.3);
+  box-shadow: 0 0 6px rgba(0,0,0,0.3);
+}

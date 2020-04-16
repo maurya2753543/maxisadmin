@@ -1,0 +1,103 @@
+<app-left-menu></app-left-menu>
+<div class="page-wrapper">
+  <div class="page-header">
+    <h2 class="page-title">Pending Requests</h2>
+  </div>
+  <div class="form-group retrieve-wrapper">Retrieve
+    <input type="number" min="1" class="form-control inline-block" [(ngModel)]="retrieveNo" /> records
+    <button type="button" class="btn btn-primary" [disabled]="!retrieveNo" (click)="assignRequest()">Retrieve</button>
+    <button *ngIf="noOfPendingReq && menuShow('ACTIONONREQUEST', 'BULKAPPROVE')" type="button" class="btn btn-primary" (click)="bulkApproval()">Approve
+      {{noOfPendingReq}} records</button>
+    <button *ngIf="noOfPendingReq" type="button" class="btn btn-primary" (click)="releaseRequest()">Release Pending
+      Request</button>
+      <strong class="pl-10 bold">Total pending request : {{totalUnAssignedPendingReq}}</strong>
+  </div>
+
+  <div class="itemWrapper">
+    <div *ngIf="requestArr?.length else noResult" class="row">
+      <!-- <div > -->
+      <div *ngFor="let item of requestArr; let i = index" class="col-sm-4">
+        <div *ngIf="item.testId">
+          <table class="table data-table">
+            <tr>
+              <td class="bold">MSISDN</td>
+              <td class="text-left">{{item.msisdn}}</td>
+              <td class="bold">IMEI No.</td>
+              <td class="text-left">{{item.imeiNo}}</td>
+            </tr>
+            <tr>
+              <td class="bold">Customer No:</td>
+              <td class="text-left">{{item.customerNumber}}</td>
+              <td class="bold">Request Date</td>
+              <td class="text-left">{{item.requestDate | date}}</td>
+            </tr>
+          </table>
+          <div class="item card">
+            <div class="item-image">
+              <ngx-image-zoom [thumbImage]="item.imageUrl" zoomMode='click' magnification='2' enableScrollZoom='true' [fullImage]="item.imageUrl">
+              </ngx-image-zoom>
+            </div>
+            <div class="row clearfix">
+              <div class="col-6">
+                <button type="button" *ngIf="menuShow('ACTIONONREQUEST', 'APPROVE')" (click)="approve(item.testId, i)" class="btn btn-success btn-block">Approve</button>
+              </div>
+              <div class="col-6">
+                <button type="button" *ngIf="menuShow('ACTIONONREQUEST', 'REJECT')" (click)="openRejectModal(item.testId, i)" class="btn btn-primary btn-block">Reject</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- </div> -->
+    </div>
+    <ng-template #noResult>
+      <div class="no-data-card">
+        <div style="text-align: center;">
+          <p style="color: grey;">Congratulations! You have completed all records, you may proceed to retrieve the next
+            batch of pending requests.</p>
+          <!-- <button type="button" class="btn btn-primary btn-block card-button" (click)="routeToAssign()">Assign Task</button> -->
+        </div>
+      </div>
+      <!-- <p class="align-center">There are no more requests to be assigned.</p> -->
+    </ng-template>
+  </div>
+  <modal #modal  class="rejectModal">
+    <modal-header>
+      <h2 style="font-size: 22px; font-weight: 600; color: grey; margin: auto;" class="modal-title">Batch Approval</h2>
+    </modal-header>
+    <modal-body>
+      <p style="color:red; text-align: center;">Are you sure?</p>
+      <p style="text-align: center;">You are about to approve {{(noOfPendingReq > 500) ? '500' : noOfPendingReq}} pending requests.</p>
+    </modal-body>
+    <modal-footer>
+      <div style="margin: auto;">
+        <button type="button" style="width: 160px;" class="btn btn-primary btn-line" (click)="bulkApprove()">Yes, I am
+          very sure</button>
+        <button type="button" style="width: 160px;" class="btn btn-primary btn-line" (click)="modal.close()">Cancel</button>
+      </div>
+    </modal-footer>
+  </modal>
+
+
+  <modal #rejectModal class="rejectModal">
+    <modal-header>
+      <h2 style="font-size: 22px; font-weight: 600; color: grey; margin: auto;" class="modal-title">Please select a reason</h2>
+    </modal-header>
+    <modal-body>
+        <select [(ngModel)]="rejectReason" name="policyStatus" class="form-control">
+          <option value="">Please Select Reason</option>
+          <option value="Image Uleare">Image Unclear</option>
+          <option value="Screen Cracked">Screen Cracked</option>
+          <!-- <option value="Others">Others</option> -->
+        </select>
+    </modal-body>
+    <modal-footer>
+      <div style="margin: auto;">
+        <button type="button" style="width: 160px;" class="btn btn-primary btn-line" [disabled]="!rejectReason" (click)="reject()">
+          Ok
+        </button>
+        <button type="button" style="width: 160px;" class="btn btn-primary btn-line" (click)="rejectModal.close()">Cancel</button>
+      </div>
+    </modal-footer>
+  </modal>
+</div>

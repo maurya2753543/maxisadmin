@@ -1,0 +1,100 @@
+<app-left-menu></app-left-menu>
+<div class="page-wrapper">
+  <div class="page-header">
+    <h2 class="page-title">Subscriptions</h2>
+    <!-- <form (ngSubmit)="searchSubscription()"> -->
+    <div class="filter-form">
+      <div class="filterBy" (click)="showFilter()" [class.active]="isFilterOpen == true">Filter By</div>
+      <div class="filter-form-wrapper" *ngIf="isFilterOpen">
+        <div class="row">
+          <div class="col-sm-4 form-group">
+            <label class="form-label">MSISDN</label>
+            <input type="text" [(ngModel)]="searchParams.msisdn" name="msisdn" class="form-control" placeholder="MSISDN" />
+          </div>
+          <div class="col-sm-4 form-group">
+            <label class="form-label">Policy No.</label>
+            <input type="text" [(ngModel)]="searchParams.policyNo" name="policyNumber" class="form-control" placeholder="Policy No." />
+          </div>
+          <div class="col-sm-4 form-group">
+            <label class="form-label">Status</label>
+            <select [(ngModel)]="searchParams.policyStatus" name="policyStatus" class="form-control">
+              <option value="ALL">All</option>
+              <option value="ACTIVE">Active</option>
+              <option value="EXPIRED">Expired</option>
+              <option value="LAPSED">Lapsed</option>
+              <option value="TERMINATIONTRANSITION">Unsubscribed</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-4 form-group">
+            <label class="form-label">IMEI/UDID</label>
+            <input type="text" [(ngModel)]="searchParams.deviceId" name="deviceId" class="form-control" placeholder="IMEI/UDID" />
+          </div>
+          <div class="col-sm-4 form-group">
+            <label class="form-label">IC No/Passport No.</label>
+            <input type="text" [(ngModel)]="searchParams.customerId" name="customerId" class="form-control" placeholder="IC No/Passport No." />
+          </div>
+        </div>
+        <div class="btn-wrapper form-group">
+          <button type="submit" (click)="searchSubscription()" class="btn btn-primary">Search</button>
+          <button type="reset" (click)="clearForm()" class="btn btn-primary">Clear</button>
+        </div>
+      </div>
+    </div>
+    <!-- </form> -->
+  </div>
+  <div class="total-counts">
+    <ul>
+      <li (click)="filterByPolicyStatus('ACTIVE')"><span class="bullet policy-active"></span> Active ({{activeCount?activeCount:'-'}})</li>
+      <li (click)="filterByPolicyStatus('LAPSED')"><span class="bullet policy-lapsed"></span> Lapsed ({{lapsedCount?lapsedCount:'-'}})</li>
+      <li (click)="filterByPolicyStatus('EXPIRED')"><span class="bullet policy-expired"></span> Expired ({{expiredCount?expiredCount:'-'}})</li>
+      <li (click)="filterByPolicyStatus('TERMINATIONTRANSITION')"><span class="bullet policy-unsubscribed"></span> Unsubscribed ({{unsubscribeCount?unsubscribeCount:'-'}})</li>
+    </ul>
+  </div>
+  <table style="margin-bottom: 10px;" class="data-table">
+    <thead>
+      <tr>
+        <th>IMEI/UDID</th>
+        <th>MSISDN</th>
+        <th>IC/Passport No.</th>
+        <th>Policy No.</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of requestArr | paginate: { itemsPerPage: 10, currentPage: p }">
+        <td>{{item.deviceId}}</td>
+        <td>{{item.msisdn}}</td>
+        <td>{{item.customerId}}</td>
+        <td>{{item.policyNumber}}</td>
+        <!-- <td>
+          <img src="../../assets/photo_gallery.jpg" alt="No Image" (click)="showImagePopUP(item.deviceImage)">
+        </td> -->
+        <!-- <td>
+          <img src="../../assets/photo_gallery.jpg" alt="No Image" (click)="showImagePopUP(item.deviceProcessedImage)">
+        </td> -->
+        <td>{{item.startDate}}</td>
+        <td>{{item.endDate}}</td>
+        <td>
+          <div class="btn-status text-center btn-block" [ngClass]="'policy-'+(item.policyStatus | lowercase)">{{item.policyStatus
+            == 'TERMINATIONTRANSITION'? 'Unsubscribed': item.policyStatusToShow}}</div>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+  <pagination-controls *ngIf="!noData" style="text-align: center;" (pageChange)="p = $event"></pagination-controls>
+  <div *ngIf="noData" class="noDataFound">{{noDataMesssage}}</div>
+
+  <modal #imagePopup>
+    <modal-body style="text-align: center;">
+      <img *ngIf="popupImageUrl else noImage" [src]="popupImageUrl" />
+      <ng-template #noImage>
+        No image to be displayed
+      </ng-template>
+    </modal-body>
+  </modal>
+</div>

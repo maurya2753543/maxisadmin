@@ -1,0 +1,69 @@
+<app-left-menu></app-left-menu>
+<div class="page-wrapper">
+  <div class="page-header">
+    <h2 class="page-title">Cancellation & Termination Report</h2>
+    <div class="filter-form">
+      <div class="filterBy" (click)="showFilter()" [class.active]="isFilterOpen == true">Filter By</div>
+      <div class="filter-form-wrapper" *ngIf="isFilterOpen">
+        <div class="row">
+          <div class="col-sm-4 form-group">
+            <label class="form-label">Request Date</label>
+            <my-date-picker name="startDate" placeholder="Start Date" (dateChanged)="onStartDateChanged($event)" [options]="myDatePickerOptions"
+              [(ngModel)]="startDate" readonly></my-date-picker>
+          </div>
+          <div class="col-sm-4 form-group">
+            <label class="form-label">&nbsp;</label>
+            <my-date-picker name="endDate" placeholder="End Date" (dateChanged)="onEndDateChanged($event)" [options]="myDatePickerOptions2" [(ngModel)]="endDate" readonly></my-date-picker>
+          </div>
+          <div class="col-sm-4 form-group">
+            <label class="form-label">Status</label>
+            <select [(ngModel)]="requestObj.status" name="policyStatus" class="form-control">
+              <option value="ALL">All</option>
+              <option value="E">Expired</option>
+              <option value="TT">Unsubscribed</option>
+              <option value="POM">Ported out from Maxis</option>
+            </select>
+          </div>
+        </div>
+        <div class="btn-wrapper form-group">
+          <button type="submit" [disabled]="!(requestObj.status || (requestObj.startDate && requestObj.endDate))" (click)="getReport()" class="btn btn-primary">Search</button>
+          <button type="reset" (click)="clearForm()" class="btn btn-primary">Clear</button>
+        </div>
+      </div>
+    </div>
+    <!-- </form> -->
+    <div class="btn-wrapper form-group">
+        <button type="submit" *ngIf="menuShow('PR', 'download')" [disabled]="!responseArr?.length" (click)="downloadReport()" class="btn btn-primary">Download</button>
+      </div>
+  </div>
+  <table style="margin-bottom: 10px;" *ngIf="!noData" class="data-table">
+    <thead>
+      <tr>
+        <th>Policy Number</th>
+        <th>Channel Source</th>
+        <th>MSISDN Number</th>
+        <th>IC/Passport Number</th>
+        <th>Model Name</th>
+        <th>IMEI Number</th>
+        <th>Creation Date</th>
+        <th>Status</th>
+        <th>Status Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of responseArr | paginate: { itemsPerPage: 10, currentPage: p }">
+        <td>{{item.policyNo}}</td>
+        <td>{{item.channelSource}}</td>
+        <td>{{item.msisdnNumber}}</td>
+        <td>{{item.customerIdNumber}}</td>
+        <td>{{item.modelName}}</td>
+        <td>{{item.imeiNumber}}</td>
+        <td class="text-center">{{item.policyCreationDate | formatdate}}</td>
+        <td>{{item.status}}</td>
+        <td class="text-center">{{item.transactionDate | formatdate}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <pagination-controls *ngIf="!noData" style="text-align: center;" (pageChange)="p = $event"></pagination-controls>
+  <div *ngIf="noData" class="noDataFound">No Data</div>
+</div>

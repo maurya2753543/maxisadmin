@@ -1,0 +1,27 @@
+<app-left-menu></app-left-menu>
+<div class="page-wrapper">
+  <div class="page-header">
+    <h2 class="page-title">SMS Log</h2>
+</div>
+  <table style="margin-bottom: 10px;" class="data-table">
+    <thead>
+      <tr>
+        <th class="wd10">MSISDN</th>
+        <th class="wd10 text-center">Policy Number</th>
+        <th class="wd10 text-center">SMS Date</th>
+        <th class="wd10 text-center">SMS Request Id</th>
+        <th class="wd30">Message</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of data">
+        <td>{{item?.msisdn}}</td>
+        <td class="text-center">{{item?.policyNumber}}</td>
+        <td class="text-center">{{item?.requestDate | formatdate}}</td>
+        <td class="text-center">{{item?.smsRequestId}}</td>
+        <td>{{item?.message}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>

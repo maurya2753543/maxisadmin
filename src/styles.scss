@@ -1,0 +1,341 @@
+/* You can add global styles to this file, and also import other style files */
+*,
+*:after,
+*:before {
+    box-sizing: border-box;
+    outline: none;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+body{
+  font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
+  vertical-align: baseline;
+  background-color: #f3f3f3;
+  border: 0;
+}
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+sup {
+    top: -.5em;
+}
+sub {
+    bottom: -.25em;
+}
+a{
+  color: #000000;
+  text-decoration: none
+}
+a:hover{
+  color:#e91020;
+  text-decoration: none;
+}
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+input,
+textarea,
+button,
+select {
+  font-family:"Segoe UI","Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  font-size: inherit;
+  color: inherit;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  border-radius: 0;
+}
+
+select {
+    text-indent: .01px;
+    text-overflow: '';
+    border: 0;
+    border-radius: 0;
+}
+select::-ms-expand {
+    display: none;
+}
+
+button{
+    outline: none;
+}
+
+img{
+    max-width: 100%;
+    vertical-align: middle
+}
+a:hover{
+    text-decoration: underline;
+}
+.form-label{
+  display: block;
+  color: #777777;
+  font-size: 13px;
+}
+.form-control{
+  border-radius: 0;
+}
+.btn{
+  border-radius: 0;
+  color: #fff;
+  padding: 5px 15px;
+}
+.btn-primary {
+  background-color: #e91020;
+  border-color: #e91020;
+}
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus,
+.btn-primary:disabled{
+  background-color: #e91020;
+  border-color: #e91020;
+  color: #fff;
+  opacity: 0.5;
+}
+.form-lable{
+  font-size: 18px;
+  color: #908f95;
+  font-style: italic;
+  margin-bottom: 6px;
+}
+select.form-control{
+    background:#ffffff url(./assets/select_arrow.png) no-repeat 98% center;
+    background-size: 13px auto;
+  }
+/*Inner page*/
+.page-wrapper{
+    padding:10px 15px 10px 235px;
+}
+.page-title{
+    font-size: 22px;
+    color: #494e4c;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.btn-pending,
+.policy-pending,
+.policy-lapsed{
+    background-color: #ffd400;
+}
+.btn-payment{
+    background-color: #c4c4c4;  
+}
+.btn-rejected,
+.btn-unsubscribed,
+.policy-expired,
+.policy-unsubscribed,
+.policy-terminationtransition {
+  background-color: #de1018;  
+}
+.policy-active,
+.btn-approved{
+    background-color: #01ac4a;  
+}
+
+.policy-inititated,
+.btn-initiated{
+    background-color: blue;
+}
+
+.policy-cancel,
+.btn-cancel,
+.btn-canceled{
+    background-color: #BE94DD;
+}
+.filterBy{
+    font-size: 18px;
+    cursor: pointer;
+    position: relative;
+    &::after{
+      content: '+';
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      height: 20px;
+      font-size: 24px;
+      line-height: 16px;
+      vertical-align: middle;
+    }
+    &.active{
+      &::after{
+        content: '-';
+      }
+    }
+  }
+  
+.filter-form-wrapper{
+    padding-top: 10px;
+}
+.total-counts{
+    padding: 5px 0;
+    ul{
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        li{
+            display: inline-block;
+            color: #2eb5c7;
+            padding: 10px 10px 10px 0;
+            vertical-align: middle;
+            line-height: 1;
+            cursor: pointer;
+            .bullet{
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                vertical-align: middle;
+                position: relative;
+                top: -2px;
+            }
+        }
+    }
+}
+/*Inner page end*/
+
+/*Table*/
+.data-table{
+    min-width: 100%;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    thead{
+        font-size: 13px;
+        z-index: 1;
+        tr{
+            th{
+                vertical-align: top;
+                font-weight: bold;
+                border-bottom: 1px solid #e91020;
+                padding: 15px 10px;
+            }
+        }
+        
+    }
+    tbody{
+        font-size: 13px;
+        tr{
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            background-color: #fff;
+            td{
+                vertical-align: middle;
+                padding: 7px 10px;
+                .btn{
+                    line-height: 18px;
+                    font-size: 12px;
+                    max-width: 120px;
+                }
+                .btn-status{
+                    line-height: 18px;
+                    font-size: 12px;
+                    max-width: 120px;
+                    min-width: 100px;
+                    border-radius: 0;
+                    color: #fff;
+                    padding: 5px;
+                    
+                }
+            }
+        }
+        tr:nth-child(2n+1){
+            background-color: #f3f3f3;
+        }
+        tr:last-child{
+            border-bottom: 0px;
+        }
+    }
+    
+    
+    th,td{
+        padding:10px 8px;
+        line-height: 16px;
+        word-break: break-word;
+        
+        &.align-left{
+            text-align: left;
+            .mat-sort-header-button{
+                text-align:left;
+            }
+        }
+        &.align-right{
+            text-align: right;
+            .mat-sort-header-button{
+                text-align:right;
+            }
+        }
+        &.align-center{
+            text-align: center;
+            .mat-sort-header-button{
+                text-align:center;
+            }
+        }
+    }
+
+    &.fixed{
+        margin: 0 -15px 0 -15px;
+
+        tr{
+            th,td{
+              &:first-child{
+                  padding-left: 16px;
+              }  
+            }
+        }
+
+        tbody {
+            display:block;
+            min-height:100px;
+            max-height:250px;
+            overflow:auto;
+            
+        }
+        thead, tbody tr {
+            display:table;
+            width:100%;
+            table-layout:fixed;
+        }
+    }
+
+}
+/*Table end*/
+
+.filter-form{
+    padding: 15px;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin-bottom: 15px;
+}
+.searchListWrapper{
+    padding-top: 10px;
+}
+.noDataFound{
+    text-align: center;
+    padding: 50px 0;
+    color: #e91020;
+}

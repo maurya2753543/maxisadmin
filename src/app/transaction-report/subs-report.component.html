@@ -1,0 +1,66 @@
+<app-left-menu></app-left-menu>
+<div class="page-wrapper">
+  <div class="page-header">
+    <h2 class="page-title">Transaction Report</h2>
+    <div class="filter-form">
+      <div class="filterBy" (click)="showFilter()" [class.active]="isFilterOpen == true">Filter By</div>
+      <div class="filter-form-wrapper" *ngIf="isFilterOpen">
+        <div class="row">
+          <div class="col-sm-4 form-group">
+            <label class="form-label">Request Date</label>
+            <my-date-picker name="startDate" placeholder="Start Date" (dateChanged)="onStartDateChanged($event)" [options]="myDatePickerOptions"
+              [(ngModel)]="startDate" readonly></my-date-picker>
+          </div>
+          <div class="col-sm-4 form-group">
+            <label class="form-label">&nbsp;</label>
+            <my-date-picker name="endDate" placeholder="End Date" (dateChanged)="onEndDateChanged($event)" [options]="myDatePickerOptions2" [(ngModel)]="endDate" readonly></my-date-picker>
+          </div>
+          <div class="col-sm-4 form-group">
+            <label class="form-label">Status</label>
+            <select [(ngModel)]="requestObj.status" name="policyStatus" class="form-control">
+              <option value="all">All</option>
+              <option value="S">Success</option>
+              <option value="F">Failed</option>
+            </select>
+          </div>
+        </div>
+        <div class="btn-wrapper form-group">
+          <button type="submit" [disabled]="!(requestObj.status || (requestObj.startDate && requestObj.endDate))" (click)="getReport()" class="btn btn-primary">Search</button>
+          <button type="reset" (click)="clearForm()" class="btn btn-primary">Clear</button>
+        </div>
+      </div>
+    </div>
+    <!-- </form> -->
+    <div class="btn-wrapper form-group">
+        <button type="submit" *ngIf="menuShow('TR', 'download')" [disabled]="!responseArr?.length" (click)="downloadReport()" class="btn btn-primary">Download</button>
+      </div>
+  </div>
+  <table style="margin-bottom: 10px;" *ngIf="!noData" class="data-table">
+    <thead>
+      <tr>
+        <th>Policy/Test Number</th>
+        <th>Channel Source</th>
+        <th>MSISDN Number</th>
+        <th>IC/Passport Number</th>
+        <th>Model Name</th>
+        <th>IMEI Number</th>
+        <th>Transaction Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of responseArr | paginate: { itemsPerPage: 10, currentPage: p }">
+        <td *ngIf="item.imeiNumber != null">{{item.policyNo}}</td>
+        <td *ngIf="item.imeiNumber != null">{{item.channelSource}}</td>
+        <td *ngIf="item.imeiNumber != null">{{item.msisdnNumber}}</td>
+        <td *ngIf="item.imeiNumber != null">{{item.customerIdNumber}}</td>
+        <td *ngIf="item.imeiNumber != null">{{item.modelName}}</td>
+        <td *ngIf="item.imeiNumber != null">{{item.imeiNumber}}</td>
+        <td class="text-center" *ngIf="item.imeiNumber != null">{{item.transactionDate | formatdate}}</td>
+        <td class="text-center">{{item.status}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <pagination-controls *ngIf="!noData" style="text-align: center;" (pageChange)="p = $event"></pagination-controls>
+  <div *ngIf="noData" class="noDataFound">No Data</div>
+</div>

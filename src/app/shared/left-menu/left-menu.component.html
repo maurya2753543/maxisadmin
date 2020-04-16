@@ -1,0 +1,18 @@
+<div class="drawer">
+  <div class="userInformation">
+    <div class="user-pic"><span *ngIf="shortUserName[0]">{{shortUserName[0].charAt(0)}}</span><span *ngIf="shortUserName[1]">{{shortUserName[1].charAt(0)}}</span></div>
+    <div class="userName">{{userName}}</div>
+    <!-- <p class="last-login">Last login xx.xx.xx</p> -->
+  </div>
+  <div [routerLink]="['/requests']" [class.active]="currentUrl == '/requests'" class="nav-button">Requests</div>
+  <div [routerLink]="['/pending-requests']" *ngIf="showPendingRequest('ACTIONONREQUEST')" [class.active]="currentUrl == '/pending-requests'" class="nav-button">Pending Requests</div>
+  <div [routerLink]="['/subscriptions']" [class.active]="currentUrl == '/subscriptions'" class="nav-button">Subscriptions</div>
+  <div [routerLink]="['/trans-report']" *ngIf="menuShow('TR', 'view')" [class.active]="currentUrl == '/trans-report'" class="nav-button">Transaction Report</div>
+  <div [routerLink]="['/cancel-report']" *ngIf="menuShow('PR', 'view')" [class.active]="currentUrl == '/cancel-report'" class="nav-button">C&amp;T Report</div>
+  <div [routerLink]="['/sms-log']" [class.active]="currentUrl == '/sms-log'" class="nav-button">SMS Logs</div>
+  <div [routerLink]="['/neeraj']" class="nav-button">Details</div>
+  
+  <div [routerLink]="['/login']" class="nav-button">Logout</div>
+
+
+</div>

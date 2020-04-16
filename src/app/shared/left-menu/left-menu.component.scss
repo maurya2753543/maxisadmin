@@ -1,0 +1,62 @@
+.drawer{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 220px;
+  left: 0;
+  z-index: 99;
+  background-color: #000000;
+  .userInformation{
+    text-align: center;
+    padding: 50px 0;
+    color: #fff;
+    .user-pic{
+      background-color: #fff;
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      margin:0 auto 15px;
+      color: #4dc0c8;
+      font-size: 30px;
+      text-align: center;
+      line-height: 90px;
+    }
+    .userName{
+      font-size: 20px;
+      font-weight: bold;
+    }
+    .last-login{
+      font-size: 12px;
+      font-style: italic;
+      color: rgba($color: #fff, $alpha: 0.7);
+    }
+  }
+  .nav-button{
+    display: block;
+    color:rgba($color: #fff, $alpha: 0.8); 
+    padding:5px 20px 5px 35px;
+    cursor: pointer;
+    position: relative;
+    border-right: 6px solid transparent;
+    margin: 5px 0;
+    &::after{
+      content: '';
+      width: 10px;
+      height: 10px;
+      background-color: #fff;
+      border-radius: 50%;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 10px;
+      position: absolute;
+    }
+    &:hover,
+    &.active{
+      border-color:#e91020;
+      text-decoration: none;
+      &::after{
+        background-color: #e91020;
+      }
+    }
+  }
+}
