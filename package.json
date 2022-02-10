@@ -31,7 +31,7 @@
     "ngx-image-zoom": "^0.3.4",
     "ngx-pagination": "^3.2.1",
     "ngx-spinner": "^2.0.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^7.0.0",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.3.3",
     "web-animations-js": "^2.3.1",
